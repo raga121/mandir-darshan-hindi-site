@@ -1,9 +1,13 @@
-
 import { Card, CardContent } from '@/components/ui/card';
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
 import { useEffect, useRef } from 'react';
+import Autoplay from 'embla-carousel-autoplay';
 
 const PhotoGallery = () => {
+  const plugin = useRef(
+    Autoplay({ delay: 3000, stopOnInteraction: false })
+  );
+
   const photos = [
     {
       id: 1,
@@ -49,14 +53,17 @@ const PhotoGallery = () => {
         📸 फोटो गैलरी
       </h2>
       
-      {/* Main Carousel */}
+      {/* Auto-running Main Carousel */}
       <div className="mb-8">
         <Carousel 
-          className="w-full max-w-4xl mx-auto"
+          plugins={[plugin.current]}
+          className="w-full max-w-6xl mx-auto"
           opts={{
             align: "start",
             loop: true,
           }}
+          onMouseEnter={plugin.current.stop}
+          onMouseLeave={plugin.current.reset}
         >
           <CarouselContent>
             {photos.map((photo) => (
@@ -66,7 +73,7 @@ const PhotoGallery = () => {
                     <img
                       src={photo.url}
                       alt={photo.title}
-                      className="w-full h-48 object-cover rounded-t-lg"
+                      className="w-full h-64 object-cover rounded-t-lg"
                     />
                     <div className="p-4">
                       <h3 className="font-semibold text-lg mb-2">{photo.title}</h3>
