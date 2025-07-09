@@ -1,5 +1,7 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent } from '@/components/ui/card';
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '@/components/ui/carousel';
+import { useEffect, useRef } from 'react';
 
 const PhotoGallery = () => {
   const photos = [
@@ -46,9 +48,44 @@ const PhotoGallery = () => {
       <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
         📸 फोटो गैलरी
       </h2>
+      
+      {/* Main Carousel */}
+      <div className="mb-8">
+        <Carousel 
+          className="w-full max-w-4xl mx-auto"
+          opts={{
+            align: "start",
+            loop: true,
+          }}
+        >
+          <CarouselContent>
+            {photos.map((photo) => (
+              <CarouselItem key={photo.id} className="md:basis-1/2 lg:basis-1/3">
+                <Card className="hover:shadow-lg transition-shadow duration-300">
+                  <CardContent className="p-0">
+                    <img
+                      src={photo.url}
+                      alt={photo.title}
+                      className="w-full h-48 object-cover rounded-t-lg"
+                    />
+                    <div className="p-4">
+                      <h3 className="font-semibold text-lg mb-2">{photo.title}</h3>
+                      <p className="text-gray-600">{photo.description}</p>
+                    </div>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+
+      {/* Grid View */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {photos.map((photo) => (
-          <Card key={photo.id} className="hover:shadow-lg transition-shadow duration-300">
+          <Card key={photo.id} className="hover:shadow-lg transition-shadow duration-300 animate-fade-in">
             <CardContent className="p-0">
               <img
                 src={photo.url}
